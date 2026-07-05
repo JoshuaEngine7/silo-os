@@ -63,8 +63,8 @@ E.g. `index.html?app=blueprint&hold&theme=vault`
 
 ## Video
 
-Official captures and ambience videos are on my YouTube channel:
-**https://www.youtube.com/@TU_CANAL** <!-- reemplaza con tu canal antes de hacer push -->
+Watch the loop in action (with the synthesized bunker ambience):
+**https://youtu.be/vx1xQYBYoE8**
 
 ## Structure
 
