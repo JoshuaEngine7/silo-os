@@ -1,0 +1,104 @@
+/* ============================================================
+   SILO-OS — design tokens
+   REGLA (criterio 6 de la SPEC): ningún archivo de pantalla usa
+   colores hex; todo color vive aquí y se consume vía var(--*).
+   Modelo:
+     <html data-theme="retro|vault">   → tecnología global
+     <sección data-scheme="green|resident|sheriff|it|maint">
+       → paleta departamental (solo tiene efecto en tema retro)
+   ============================================================ */
+
+:root {
+  /* tipografía (candidata por defecto; se confirma en font-test.html) */
+  --font-ui: 'Pixel Operator', 'VT323', ui-monospace, monospace;
+  --font-ui-mono: 'Pixel Operator Mono', ui-monospace, monospace;
+
+  /* ritmo */
+  --hairline: 1px;
+  --gap: 8px;
+  --pad: 10px;
+
+  /* el "vacío" físico detrás del tubo: negro real, igual en todo tema */
+  --void: #000;
+}
+
+/* ---------- TEMA RETRO (fósforo, por departamento) ---------- */
+
+/* Verde fósforo — Mecánica / taller / visor de planos (esquema base) */
+:root[data-theme="retro"] [data-scheme="green"] {
+  --bg: #041008;
+  --panel: #06180e;
+  --chrome: #2e9268;      /* bordes, estructura */
+  --ink: #55d896;         /* texto normal */
+  --data: #a8ffd0;        /* dato brillante */
+  --accent: #ffc233;      /* ámbar: fechas, alertas, CLASSIFIED */
+  --dim: #174430;         /* líneas débiles, texto apagado */
+  --inverse-ink: #03140b; /* texto sobre barra sólida */
+  --glow: 168, 255, 208;  /* rgb del resplandor (para text-shadow) */
+}
+
+/* Cian residente — SiloMail, terminal de residentes */
+:root[data-theme="retro"] [data-scheme="resident"] {
+  --bg: #020c12;
+  --panel: #04141d;
+  --chrome: #35c7e8;
+  --ink: #7ce4f7;
+  --data: #c2f4ff;
+  --accent: #f5b52e;
+  --dim: #14495a;
+  --inverse-ink: #03141a;
+  --glow: 124, 228, 247;
+}
+
+/* Sheriff — Relics DB, Search Records (cian estructura + verde datos) */
+:root[data-theme="retro"] [data-scheme="sheriff"] {
+  --bg: #030f0d;
+  --panel: #051a16;
+  --chrome: #3fc3df;
+  --ink: #58e39b;
+  --data: #b9f7d4;
+  --accent: #d7f43e;      /* verde-amarillo del texto tecleado */
+  --dim: #15503e;
+  --inverse-ink: #04120f;
+  --glow: 88, 227, 155;
+}
+
+/* Azul IT / PACT */
+:root[data-theme="retro"] [data-scheme="it"] {
+  --bg: #030a18;
+  --panel: #061226;
+  --chrome: #2f7ee8;
+  --ink: #6fb1ff;
+  --data: #d5e8ff;
+  --accent: #ffffff;
+  --dim: #143263;
+  --inverse-ink: #041022;
+  --glow: 111, 177, 255;
+}
+
+/* Mantenimiento — barras ámbar/crema + texto azul */
+:root[data-theme="retro"] [data-scheme="maint"] {
+  --bg: #0a0805;
+  --panel: #141008;
+  --chrome: #e8c987;
+  --ink: #6db5e8;
+  --data: #a8d9ff;
+  --accent: #e86a3a;
+  --dim: #4a3d22;
+  --inverse-ink: #140f06;
+  --glow: 109, 181, 232;
+}
+
+/* ---------- TEMA VAULT (bóveda/Judicial-IT moderna) ----------
+   Un solo esquema azul profundo se impone a TODOS los data-scheme. */
+:root[data-theme="vault"] [data-scheme] {
+  --bg: #030918;
+  --panel: #071229;
+  --chrome: #3d7dd8;
+  --ink: #9cc3f5;
+  --data: #eaf3ff;
+  --accent: #ffd76a;
+  --dim: #1a3260;
+  --inverse-ink: #051021;
+  --glow: 156, 195, 245;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!-- Arnés de verificación: monta las 4 apps en secuencia rápida y reporta
+     errores/warnings de consola en el <title> (leído por captura headless).
+     No forma parte del producto; es andamiaje de pruebas. -->
+<html lang="es" data-theme="retro">
+<head>
+<meta charset="UTF-8"><title>PROBE PENDING</title>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/screens.css">
+<link rel="stylesheet" href="css/crt.css">
+<style>*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;background:#000;overflow:hidden}</style>
+</head>
+<body>
+<div id="screen"></div>
+<script>
+  window.__errs = [];
+  const oe = console.error.bind(console);
+  console.error = (...a) => { window.__errs.push(a.join(' ')); oe(...a); };
+  addEventListener('error', e => window.__errs.push('ERR: ' + e.message));
+  addEventListener('unhandledrejection', e => window.__errs.push('REJECT: ' + e.reason));
+</script>
+<script type="module">
+  import { initFx } from './js/fx.js';
+  import boot from './js/apps/boot.js';
+  import files from './js/apps/files.js';
+  import blueprint from './js/apps/blueprint.js';
+  import relics from './js/apps/relics.js';
+
+  const screen = document.getElementById('screen');
+  const apps = [boot, files, blueprint, relics];
+  initFx();
+
+  // monta cada app, la deja correr ~2.5s, la desmonta (probando cleanup),
+  // y repite DOS rondas completas (detecta fugas entre ciclos → criterio 3)
+  async function run() {
+    let cleanup = null;
+    for (let round = 0; round < 2; round++) {
+      for (const app of apps) {
+        if (cleanup) cleanup();
+        screen.innerHTML = '';
+        const host = document.createElement('section');
+        host.className = 'app';
+        host.dataset.scheme = app.scheme;
+        host.dataset.app = app.id;
+        screen.appendChild(host);
+        cleanup = await app.mount(host) ?? null;
+        await new Promise(r => setTimeout(r, 2500));
+      }
+    }
+    if (cleanup) cleanup();
+
+    // ¿cuántos contextos WebGL siguen vivos? (fuga si crece sin límite)
+    const canvases = document.querySelectorAll('canvas').length;
+    const errs = window.__errs.filter(e => !/willReadFrequently|Deprecation/i.test(e));
+    document.title = `PROBE ${errs.length === 0 ? 'PASS' : 'FAIL'} · errors=${errs.length} · canvases=${canvases}` +
+      (errs.length ? ' · ' + errs.slice(0, 3).join(' | ') : '');
+  }
+  run();
+</script>
+</body>
+</html>

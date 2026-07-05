@@ -1,0 +1,465 @@
+/* ============================================================
+   SILO-OS — estilos por pantalla (solo tokens, cero hex)
+   ============================================================ */
+
+/* ---------------- App 1 · BOOT (LEVELS 1-20) ---------------- */
+/* Referencia: foto 20260606_233825 — tres módulos apilados:
+   ventana de log de código, módulo de progreso, caja LEVELS. */
+
+.boot {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 40px clamp(40px, 12vw, 220px);
+  justify-content: center;
+}
+
+.boot-log {
+  border: var(--hairline) solid var(--ink);
+  min-height: 0;
+  height: 38vh;
+  padding: 14px 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.boot-log pre {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  white-space: pre-wrap;
+  text-transform: none; /* el código respeta minúsculas */
+}
+.boot-log pre .ok { color: var(--data); }
+
+.boot-progress {
+  border: var(--hairline) solid var(--ink);
+  padding: 16px 18px 12px;
+}
+.seg-bar { display: flex; gap: 6px; margin-bottom: 14px; }
+.seg-bar span {
+  flex: 1;
+  height: 26px;
+  border: var(--hairline) solid var(--dim);
+  background: transparent;
+}
+.seg-bar span.fill { background: var(--ink); border-color: var(--ink); }
+.seg-bar span.hot  { background: var(--data); border-color: var(--data); }
+
+.boot-progress-row {
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  align-items: stretch;
+}
+.boot-loading, .boot-counter {
+  border: var(--hairline) solid var(--ink);
+  padding: 6px 14px;
+  font-size: 17px;
+  letter-spacing: .1em;
+  color: var(--data);
+}
+.boot-counter { color: var(--ink); }
+
+.boot-levels {
+  border: var(--hairline) solid var(--ink);
+  padding: 26px 10px;
+  text-align: center;
+  font-size: clamp(40px, 6vw, 64px);
+  letter-spacing: .14em;
+  color: var(--data);
+}
+
+/* ------- App 2 · Escáner + navegador de archivos ------------- */
+/* Referencias: fotos 233315/233343/233351 (escáner) y 234827 (grid). */
+
+.files { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+/* pestañas superiores de firmware */
+.files-tabs {
+  display: flex; gap: 6px; padding: 8px 10px 6px; flex: none;
+  font-size: 12.5px; letter-spacing: .05em;
+}
+.files-tabs span {
+  border: var(--hairline) solid var(--dim);
+  color: var(--ink);
+  padding: 2px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.files-tabs b { color: var(--data); font-weight: inherit; }
+
+/* zona central; en fase escáner lleva textura dither */
+.files-main {
+  flex: 1; position: relative; margin: 0 10px; min-height: 0;
+  border: var(--hairline) solid var(--dim);
+  display: flex;
+}
+.files-main.dither {
+  background:
+    repeating-linear-gradient(45deg,
+      rgba(var(--glow), .10) 0 1px, transparent 1px 3px);
+}
+
+/* diálogo pequeño centrado (CONNECT DEVICE / SCANNING) */
+.files-dialog {
+  position: absolute; left: 50%; top: 58%;
+  transform: translate(-50%, -50%);
+  background: var(--bg);
+  border: var(--hairline) solid var(--ink);
+  padding: 14px 34px 16px;
+  text-align: center;
+  min-width: 300px;
+}
+.files-dialog .x {
+  position: absolute; left: 6px; bottom: 4px;
+  font-size: 11px; color: var(--dim);
+}
+.files-dialog .label {
+  color: var(--data); font-size: 19px; letter-spacing: .14em;
+}
+.files-dialog .minibar {
+  height: 6px; margin: 0 auto 10px; width: 150px;
+  border: var(--hairline) solid var(--dim);
+  position: relative; overflow: hidden;
+}
+.files-dialog .minibar i {
+  position: absolute; inset: 0; right: auto;
+  background: var(--data);
+}
+
+/* log numerado del escaneo */
+.files-log {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 15px;
+  align-self: flex-end;
+  text-transform: none;
+}
+.files-log .num { color: var(--dim); margin-right: 14px; }
+.files-log .ok  { color: var(--data); }
+
+/* grid de archivos 3 columnas */
+.files-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px 10px;
+  padding: 10px 12px;
+  overflow: hidden;
+  align-content: start;
+}
+.file-card {
+  border: var(--hairline) dashed var(--dim);
+  padding: 5px 8px 5px 6px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 3px 10px;
+  align-items: center;
+  min-height: 46px;
+}
+.file-card.sel { background: var(--dim); }
+.file-card .icon { grid-row: 1 / span 2; width: 22px; height: 26px; color: var(--accent); }
+.file-card .name {
+  color: var(--data); font-size: 15px; letter-spacing: .04em;
+  white-space: nowrap; overflow: hidden;
+}
+.file-card .size { color: var(--ink); font-size: 13px; }
+.file-card .date { grid-column: 2 / span 2; color: var(--accent); font-size: 12px; }
+
+/* búsqueda + footer de dispositivo */
+.files-search {
+  margin: 8px 10px 0; padding: 4px 10px; flex: none;
+  border: var(--hairline) solid var(--dim);
+  display: flex; gap: 16px; font-size: 13.5px;
+  color: var(--ink);
+}
+.files-search .x { color: var(--dim); }
+.files-foot {
+  display: flex; gap: 8px; align-items: stretch; flex: none;
+  margin: 8px 10px 10px; font-size: 13.5px;
+}
+.files-foot .cell {
+  border: var(--hairline) solid var(--dim);
+  padding: 4px 10px;
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+}
+.files-foot .cell b { color: var(--data); font-weight: inherit; }
+.files-foot .grow { flex: 1; min-width: 0; }
+.files-foot .capbar {
+  flex: 1; height: 10px; min-width: 60px;
+  border: var(--hairline) solid var(--dim);
+  position: relative; overflow: hidden;
+}
+.files-foot .capbar i { position: absolute; inset: 0; right: 21%; background: var(--accent); }
+.files-foot .btn {
+  border: var(--hairline) solid var(--ink);
+  color: var(--data);
+  padding: 4px 14px;
+  display: flex; align-items: center;
+}
+.files-foot .disk { width: 26px; color: var(--ink); align-self: center; flex: none; }
+
+/* ------- App 4 · RELICS DATABASE (Sheriff) -------------------- */
+/* Referencias: fotos 150823 (formulario), 153208 (RESULTS PENDING),
+   153316 (INSUFFICIENT DATA). Esquema sheriff: chrome cian, datos verdes. */
+
+.relics { flex: 1; display: flex; flex-direction: column; min-height: 0; font-size: 13.5px; }
+
+/* menú superior de pestañas */
+.relics-menu {
+  display: flex; gap: 2px; padding: 6px 10px 0; flex: none;
+  color: var(--chrome); letter-spacing: .06em;
+}
+.relics-menu span { padding: 2px 10px; }
+.relics-menu span::before { content: '| '; color: var(--dim); }
+.relics-menu span.active { background: var(--ink); color: var(--inverse-ink); }
+.relics-menubar {
+  height: 6px; background: var(--chrome); margin: 2px 10px 0; flex: none;
+}
+
+/* cabecera: sello + dept + señal */
+.relics-head {
+  display: grid;
+  grid-template-columns: 150px 1fr auto;
+  gap: 4px 18px;
+  padding: 10px 14px 4px;
+  flex: none;
+  align-items: start;
+}
+.relics-seal { grid-row: 1 / span 3; width: 130px; color: var(--chrome); }
+.relics-dept { display: flex; gap: 20px; align-items: baseline; }
+.relics-dept .box {
+  background: var(--chrome); color: var(--inverse-ink);
+  padding: 2px 12px; letter-spacing: .1em;
+}
+.relics-dept .standby { color: var(--data); letter-spacing: .12em; }
+.relics-sub { color: var(--chrome); }
+.relics-signal {
+  color: var(--dim); font-size: 11px; line-height: 1.35;
+  text-align: right; white-space: pre;
+}
+.relics-sd1 { color: var(--data); font-size: 18px; }
+
+/* cuerpo: keypad izquierda + formulario derecha */
+.relics-body {
+  flex: 1; min-height: 0;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 0 18px;
+  padding: 2px 14px 0;
+}
+.keypad-title {
+  border: var(--hairline) solid var(--ink);
+  color: var(--ink);
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: .08em;
+  padding: 2px 4px;
+  margin-bottom: 8px;
+}
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+}
+.keypad .key {
+  border: var(--hairline) solid var(--ink);
+  color: var(--ink);
+  min-height: 44px;
+  padding: 3px 4px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  font-size: 12px;
+  position: relative;
+}
+.keypad .key .fn { font-size: 11px; color: var(--ink); }
+.keypad .key .cap { position: absolute; top: -14px; left: 0; font-size: 11px; color: var(--ink); }
+.keypad .key.tall { grid-row: span 2; }
+.keypad .row-gap { height: 8px; grid-column: 1 / -1; }
+
+/* formulario */
+.relics-form { display: flex; flex-direction: column; min-height: 0; }
+.relics-lawline {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-top: var(--hairline) dashed var(--dim);
+  padding: 6px 0 6px;
+  color: var(--data);
+  font-size: 16px; letter-spacing: .08em;
+}
+.relics-lawline b { color: var(--data); font-weight: inherit; font-size: 18px; }
+.relics-lawline .lbl { color: var(--chrome); font-size: 13px; }
+
+.relics-row3 { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 10px; }
+.rfield { border: var(--hairline) solid var(--ink); padding: 4px 8px 8px; }
+.rfield .lbl { color: var(--chrome); font-size: 12px; letter-spacing: .06em; display: block; }
+.rfield .val { color: var(--accent); font-size: 16px; min-height: 20px; display: block; }
+
+.relics-desc {
+  border: var(--hairline) solid var(--ink);
+  margin-top: 10px;
+  flex: 1; min-height: 120px;
+  padding: 4px 8px 6px;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.relics-desc .val { flex: 1; color: var(--accent); font-size: 19px; padding-top: 6px; }
+.relics-desc .val .cursor { animation: blink 1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.relics-desc .kw { display: flex; justify-content: space-between; color: var(--chrome); font-size: 12px; }
+.relics-desc .insufficient {
+  position: absolute; inset: 24px 0 0;
+  display: none; align-items: center; justify-content: center;
+  color: var(--data);
+  font-size: clamp(34px, 4.6vw, 56px);
+  letter-spacing: .1em;
+}
+.relics-desc .insufficient.on { display: flex; }
+
+.relics-row2 { display: grid; grid-template-columns: 1fr 170px; gap: 10px; margin-top: 10px; }
+
+.relics-auth {
+  margin-top: 10px;
+  background: var(--chrome);
+  color: var(--inverse-ink);
+  padding: 3px 10px;
+  font-size: 13px; letter-spacing: .06em;
+}
+.relics-auth b { font-weight: inherit; }
+
+.relics-actions {
+  display: flex; justify-content: flex-end; gap: 12px; padding: 12px 0;
+}
+.relics-actions .btn {
+  border: var(--hairline) solid var(--ink);
+  color: var(--ink);
+  padding: 7px 22px;
+  letter-spacing: .08em;
+}
+.relics-actions .btn.hot { background: var(--ink); color: var(--inverse-ink); }
+
+/* fila inferior: mensajes + acciones A/B */
+.relics-foot {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 16px;
+  padding: 4px 14px 8px;
+  flex: none;
+  align-items: end;
+}
+.relics-messages {
+  border: var(--hairline) solid var(--ink);
+  padding: 4px 8px;
+  color: var(--ink);
+  font-size: 13px;
+}
+.relics-messages b { color: var(--data); font-weight: inherit; }
+.relics-ab { display: flex; gap: 10px; justify-content: space-between; }
+.relics-ab .ab {
+  flex: 1; text-align: center;
+  border: var(--hairline) solid var(--ink);
+  color: var(--ink);
+  padding: 6px 4px;
+  font-size: 12px;
+  position: relative;
+  margin-top: 14px;
+}
+.relics-ab .ab i { position: absolute; top: -15px; left: 0; font-style: normal; font-size: 11px; color: var(--chrome); }
+.relics-bottombar {
+  height: 8px; background: var(--chrome); margin: 0 14px 8px; flex: none;
+}
+
+/* diálogo RESULTS PENDING sobre fondo rayado */
+.relics-pending {
+  position: absolute; inset: 0; z-index: 5;
+  background:
+    repeating-linear-gradient(45deg,
+      rgba(var(--glow), .07) 0 1px, transparent 1px 4px),
+    var(--bg);
+  display: flex; align-items: center; justify-content: center;
+}
+.relics-pending .dlg {
+  background: var(--bg);
+  border: var(--hairline) solid var(--chrome);
+  padding: 16px 40px 20px;
+  min-width: 380px;
+  position: relative;
+  text-align: center;
+}
+.relics-pending .dlg .x { position: absolute; right: 8px; top: 4px; color: var(--chrome); font-size: 12px; }
+.relics-pending .dlg .label { color: var(--data); letter-spacing: .14em; font-size: 15px; margin-bottom: 10px; }
+.relics-pending .bar {
+  height: 12px; border: var(--hairline) solid var(--dim);
+  position: relative; overflow: hidden;
+}
+.relics-pending .bar i { position: absolute; inset: 1px; right: auto; background: var(--data); }
+
+/* ------- App 3 · Visor de planos 3D -------------------------- */
+/* Referencias: fotos 233733 / 234221 / 234234 (PLAN AS PER CIVIL DATA). */
+
+.bp { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.bp .bp-page { color: var(--inverse-ink); }
+
+.bp-stage { flex: 1; position: relative; min-height: 0; overflow: hidden; }
+.bp-view { position: absolute; inset: 0; }
+
+/* toolbar lateral de marcadores */
+.bp-toolbar {
+  position: absolute; left: 8px; top: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.bp-toolbar span {
+  width: 26px; height: 26px;
+  border: var(--hairline) solid var(--dim);
+  color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+
+/* callouts con caja + línea guía */
+.bp-callout { position: absolute; font-size: 12px; }
+.bp-callout .box {
+  border: var(--hairline) solid var(--ink);
+  background: var(--bg);
+  padding: 4px 8px;
+  color: var(--ink);
+  letter-spacing: .04em;
+  min-width: 120px;
+}
+.bp-callout .box .k { color: var(--data); }
+.bp-callout .box.amber { border-color: var(--accent); }
+.bp-callout .box.amber .k { color: var(--accent); }
+.bp-callout .box .dim { color: var(--dim); font-size: 11px; }
+.bp-callout .line {
+  position: absolute;
+  border-top: var(--hairline) dashed var(--ink);
+}
+.bp-callout-a { top: 16%; right: 10%; }
+.bp-callout-a .line { width: 90px; left: -96px; top: 14px; }
+.bp-callout-b { bottom: 20%; left: 8%; }
+.bp-callout-b .line { width: 80px; right: -86px; top: 14px; border-color: var(--accent); }
+
+/* ventana de código abajo-izquierda */
+.bp-code {
+  position: absolute; left: 12px; bottom: 12px;
+  width: 260px; height: 96px;
+  border: var(--hairline) solid var(--dim);
+  background: var(--panel);
+  padding: 6px 8px;
+  overflow: hidden;
+}
+.bp-code pre {
+  font-size: 12px; line-height: 1.4; color: var(--ink);
+  white-space: pre-wrap; text-transform: none;
+}
+
+.bp-viewlabel {
+  position: absolute; right: 12px; bottom: 12px;
+  color: var(--accent); font-size: 12px; letter-spacing: .06em;
+  border: var(--hairline) solid var(--dim);
+  padding: 3px 8px; background: var(--bg);
+}
+.bp-run { color: var(--accent); }

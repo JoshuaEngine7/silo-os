@@ -1,0 +1,42 @@
+/* SILO-OS — fuentes locales (offline). La familia ganadora se decide en font-test.html */
+
+@font-face {
+  font-family: 'Pixel Operator';
+  src: url('../assets/fonts/PixelOperator.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Pixel Operator';
+  src: url('../assets/fonts/PixelOperator-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Pixel Operator Mono';
+  src: url('../assets/fonts/PixelOperatorMono.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Pixel Operator Mono';
+  src: url('../assets/fonts/PixelOperatorMono-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Handjet';
+  src: url('../assets/fonts/Handjet-var.ttf') format('truetype');
+  font-weight: 100 900;
+}
+@font-face {
+  font-family: 'Pixelify Sans';
+  src: url('../assets/fonts/PixelifySans-var.ttf') format('truetype');
+  font-weight: 400 700;
+}
+@font-face {
+  font-family: 'Silkscreen';
+  src: url('../assets/fonts/Silkscreen-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'VT323';
+  src: url('../assets/fonts/VT323-Regular.ttf') format('truetype');
+  font-weight: 400;
+}

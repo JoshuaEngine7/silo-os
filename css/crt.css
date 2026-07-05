@@ -1,0 +1,169 @@
+/* ============================================================
+   SILO-OS — capa CRT global (paso 1)
+   Cada efecto se controla con un atributo en <html>:
+     data-fx-scan / glow / rollbar / flicker / grain / vignette = "on"|"off"
+   Apagado = la capa no se pinta (display:none), no solo se oculta.
+   ============================================================ */
+
+#crt { position: fixed; inset: 0; pointer-events: none; z-index: 900; }
+#crt .fx { position: absolute; inset: 0; display: none; }
+
+/* --- scanlines ------------------------------------------------ */
+html[data-fx-scan="on"] #crt .fx-scanlines {
+  display: block;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    rgba(0, 0, 0, .26) 2px 4px
+  );
+}
+
+/* --- glow de fósforo (hereda a todo el texto del screen) ------ */
+html[data-fx-glow="on"] #screen {
+  text-shadow:
+    0 0 1px rgba(var(--glow), .9),
+    0 0 7px rgba(var(--glow), .38);
+}
+
+/* --- línea de interferencia (retrace) que baja ---------------- */
+/* banda ancha que oscurece + filo brillante, como un CRT mal
+   sincronizado; recorre de arriba a abajo en bucle */
+html[data-fx-rollbar="on"] #crt .fx-rollbar {
+  display: block;
+  inset: auto 0;
+  top: 0;
+  height: 140px;
+  transform: translateY(-160px);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, .16) 30%,
+    rgba(var(--glow), .07) 62%,
+    rgba(255, 255, 255, .18) 70%,
+    rgba(255, 255, 255, .02) 74%,
+    transparent 100%
+  );
+  animation: crt-rollbar 8s linear infinite;
+}
+@keyframes crt-rollbar {
+  to { transform: translateY(calc(100vh + 160px)); }
+}
+
+/* --- flicker (parpadeo irregular de brillo) ------------------- */
+html[data-fx-flicker="on"] #screen {
+  animation: crt-flicker 6.4s steps(1, end) infinite;
+}
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  11%  { opacity: .93; }
+  12%  { opacity: 1; }
+  37%  { opacity: .97; }
+  38%  { opacity: 1; }
+  61%  { opacity: .90; }
+  62%  { opacity: 1; }
+  84%  { opacity: .96; }
+  85%  { opacity: 1; }
+}
+
+/* --- grano animado -------------------------------------------- */
+html[data-fx-grain="on"] #crt .fx-grain {
+  display: block;
+  opacity: .055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: crt-grain .45s steps(4) infinite;
+}
+@keyframes crt-grain {
+  0%   { background-position: 0 0; }
+  25%  { background-position: -42px 33px; }
+  50%  { background-position: 61px -18px; }
+  75%  { background-position: -25px -54px; }
+  100% { background-position: 38px 47px; }
+}
+
+/* --- viñeta ---------------------------------------------------- */
+html[data-fx-vignette="on"] #crt .fx-vignette {
+  display: block;
+  background: radial-gradient(
+    ellipse 130% 120% at 50% 48%,
+    transparent 62%,
+    rgba(0, 0, 0, .38) 96%
+  );
+}
+
+/* respeto a quien pide menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  #crt .fx, html[data-fx-flicker="on"] #screen { animation: none !important; }
+}
+
+/* ============================================================
+   Panel de efectos (tecla F) — usa SOLO tokens
+   ============================================================ */
+#fx-panel {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1000;
+  min-width: 240px;
+  background: var(--panel);
+  border: var(--hairline) solid var(--chrome);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  display: none;
+  box-shadow: 0 0 24px rgba(0, 0, 0, .6);
+}
+#fx-panel.open { display: block; }
+#fx-panel .fxp-title {
+  background: var(--chrome);
+  color: var(--inverse-ink);
+  padding: 3px 8px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+}
+#fx-panel .fxp-title button {
+  all: unset; cursor: pointer; padding: 0 4px;
+}
+#fx-panel ul { list-style: none; margin: 0; padding: 6px 0; }
+#fx-panel li { padding: 0; }
+#fx-panel li button {
+  all: unset;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+#fx-panel li button:hover { background: var(--dim); color: var(--data); }
+#fx-panel li button .state { color: var(--accent); }
+#fx-panel .fxp-hint {
+  border-top: var(--hairline) solid var(--dim);
+  color: var(--dim);
+  padding: 4px 10px;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+/* botón discreto para abrir el panel sin teclado */
+#fx-open {
+  all: unset;
+  position: fixed;
+  right: 8px;
+  bottom: 8px;
+  z-index: 999;
+  color: var(--dim);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: .1em;
+  padding: 2px 6px;
+  border: var(--hairline) solid var(--dim);
+  cursor: pointer;
+  opacity: .55;
+}
+#fx-open:hover { color: var(--ink); border-color: var(--chrome); opacity: 1; }

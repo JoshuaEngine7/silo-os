@@ -1,0 +1,71 @@
+/* SILO-OS — chrome compartido de las apps (paso 3) */
+
+#screen { position: fixed; inset: 0; background: var(--void); }
+
+/* corte seco entre apps con micro-flicker */
+#screen.cut { animation: cut-flicker .14s steps(2) 1; }
+@keyframes cut-flicker {
+  0%   { opacity: .15; }
+  50%  { opacity: .8; }
+  100% { opacity: 1; }
+}
+
+.app {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+}
+
+.app .titlebar {
+  background: var(--chrome);
+  color: var(--inverse-ink);
+  padding: 4px 10px;
+  font-size: 16px;
+  letter-spacing: .12em;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex: none;
+}
+
+.app .telemetry {
+  display: flex; gap: 18px; flex-wrap: wrap;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-bottom: var(--hairline) solid var(--dim);
+  flex: none;
+}
+.app .telemetry b { color: var(--data); font-weight: inherit; }
+
+.app .statusline {
+  border-top: var(--hairline) solid var(--dim);
+  padding: 5px 10px;
+  font-size: 14px;
+  color: var(--data);
+  flex: none;
+}
+
+.app .placeholder {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px;
+  letter-spacing: .18em;
+  color: var(--chrome);
+}
+
+/* HUD del shell (esquina inferior izquierda, discreto) */
+#shell-hud {
+  position: fixed; left: 8px; bottom: 8px; z-index: 999;
+  color: var(--dim);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: .1em;
+  border: var(--hairline) solid var(--dim);
+  padding: 2px 6px;
+  opacity: .55;
+  text-transform: uppercase;
+}

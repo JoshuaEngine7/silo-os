@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--
+  SILO-OS · laboratorio tipográfico (paso 0)
+  Frases REALES del corpus en cada fuente candidata, sobre fondo de
+  fósforo con glow + scanlines simulados, para elegir LA fuente
+  comparando contra las fotos (no contra el recuerdo).
+-->
+<html lang="es" data-theme="retro">
+<head>
+<meta charset="UTF-8">
+<title>SILO-OS · font test</title>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/tokens.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #041008;
+    color: #55d896;
+    padding: 24px;
+    font-family: ui-monospace, monospace;
+  }
+  h1 { font-size: 14px; letter-spacing: .15em; margin-bottom: 4px; color: #a8ffd0; }
+  p.hint { font-size: 12px; color: #2e9268; margin-bottom: 20px; }
+  .controls { margin-bottom: 20px; font-size: 12px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .controls label { cursor: pointer; user-select: none; }
+
+  .card {
+    border: 1px solid #174430;
+    margin-bottom: 18px;
+    background: #06180e;
+    position: relative;
+    overflow: hidden;
+  }
+  .card h2 {
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: #03140b;
+    background: #2e9268;
+    padding: 3px 8px;
+    font-weight: normal;
+  }
+  .sample { padding: 14px 16px; position: relative; }
+
+  /* glow de fósforo */
+  body.fx-glow .sample .line {
+    text-shadow: 0 0 2px rgba(168,255,208,.9), 0 0 8px rgba(85,216,150,.45);
+  }
+  /* scanlines por tarjeta */
+  body.fx-scan .card::after {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom, transparent 0 2px, rgba(0,0,0,.28) 2px 4px);
+  }
+
+  .line { display: block; text-transform: uppercase; }
+  .l-big   { font-size: 42px; color: #7ce4f7; letter-spacing: .04em; }
+  .l-title { font-size: 24px; color: #a8ffd0; }
+  .l-row   { font-size: 18px; }
+  .l-row b { color: #ffc233; font-weight: inherit; }
+  .l-small { font-size: 14px; color: #2e9268; }
+  .l-mixed { font-size: 18px; text-transform: none; }
+</style>
+</head>
+<body class="fx-glow fx-scan">
+  <h1>SILO-OS · PRUEBA TIPOGRÁFICA</h1>
+  <p class="hint">Compara cada tarjeta contra las fotos (INSUFFICIENT DATA, grid de archivos, telemetría). Toggles:</p>
+  <div class="controls">
+    <label><input type="checkbox" checked onchange="document.body.classList.toggle('fx-glow')"> GLOW</label>
+    <label><input type="checkbox" checked onchange="document.body.classList.toggle('fx-scan')"> SCANLINES</label>
+  </div>
+  <div id="cards"></div>
+
+<script>
+  const FONTS = [
+    ['Pixel Operator',        '400'],
+    ['Pixel Operator',        '700'],
+    ['Pixel Operator Mono',   '400'],
+    ['Pixel Operator Mono',   '700'],
+    ['Handjet',               '500'],
+    ['Handjet',               '700'],
+    ['Pixelify Sans',         '400'],
+    ['Silkscreen',            '400'],
+    ['VT323',                 '400'],
+  ];
+  const SAMPLE = `
+    <span class="line l-big">INSUFFICIENT DATA</span>
+    <span class="line l-title">LAW ENFORCEMENT USE ONLY · RELICS DATABASE</span>
+    <span class="line l-row">SIL-UTILITIES &nbsp; <b>OCT 12, SILO YEAR 96</b> &nbsp; 544.7MB</span>
+    <span class="line l-row">PWR ON HRS: 1103 · CYCLES: 889 · TEMP: 96.7°F · <b>38911 BYTES FREE</b></span>
+    <span class="line l-small">QUICK ACCES KEYPD · EMER ACK ENRT SCN AVAIL OUTS TRANS LUNCH</span>
+    <span class="line l-mixed">Mixed case: Nichols, Juliette, Sheriff — 0123456789</span>`;
+
+  document.getElementById('cards').innerHTML = FONTS.map(([f, w]) => `
+    <div class="card">
+      <h2>${f} · ${w}</h2>
+      <div class="sample" style="font-family:'${f}'; font-weight:${w}">${SAMPLE}</div>
+    </div>`).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<!-- prueba de humo del paso 0: ¿cargan los módulos ES locales? (sin WebGL) -->
+<html lang="es">
+<head><meta charset="UTF-8"><title>SMOKE PENDING</title></head>
+<body>
+<pre id="out">PENDING</pre>
+<script type="module">
+  import * as THREE from './vendor/three/three.module.min.js';
+  const msg = `SMOKE OK · THREE R${THREE.REVISION} · Scene=${typeof THREE.Scene}`;
+  document.title = msg;
+  document.getElementById('out').textContent = msg;
+</script>
+</body>
+</html>
