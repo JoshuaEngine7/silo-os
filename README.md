@@ -12,6 +12,23 @@ loops Territory Studio ran live on set. Vanilla HTML/CSS/JS + Three.js
 > Made by fans, for fans — and as an exercise in FUI (fictional user interfaces)
 > inspired by the work of Territory Studio.
 
+## Screens
+
+The attract loop cycles through four screens; everything below is real output
+of the demo (no mockups):
+
+| | |
+|:--:|:--:|
+| ![Boot — LEVELS 1-20](docs/boot.png) | ![Disk scanner and file browser](docs/files.png) |
+| **BOOT** — access log types itself, segmented loader, LEVELS 1-20 | **DISK UTILITIES** — CONNECT DEVICE → SCANNING → recovered file grid |
+| ![3D blueprint viewer](docs/blueprint.png) | ![Relics Database](docs/relics.png) |
+| **BLUEPRINT** — procedural 3D wireframe silo, rotating through 3 views | **RELICS DATABASE** — form types itself, searches… INSUFFICIENT DATA |
+
+![VAULT tech theme](docs/vault.png)
+
+**VAULT tech** — the entire system re-skins to the modern vault blue with one
+key (`T`); even the 3D wireframe color comes from the same design tokens.
+
 ## Running it
 
 You need a local server (ES modules don't load over `file://`). With Python:
@@ -79,3 +96,18 @@ The design was validated against a detailed inventory of 49+ reference frames
 from the show (an internal "visual bible"), not against memory. Texts, names,
 telemetry and file names come from that corpus — the keypad reads
 `QUICK ACCES KEYPD` (sic) because that's what's on screen.
+
+## Roadmap
+
+Screens already inventoried from reference frames, coming in future releases:
+
+- **SiloMail** — resident mail (`REPRODUCTIVE CLEARANCE GRANTED`) and the
+  Sheriff's direct-message chat
+- **PREGNANCY OPPORTUNITY TIME** — the countdown, glowing green counter and all
+- **SEARCH RECORDS** — person files with dithered record photos
+- **PACT COLLECTIVE SYSTEM** — SYSTEM PARTITIONING monitor, CPU staircase
+  graphs, priority notifications
+- **CRITICAL SUPPLY INVENTORY** — the Lotus-style spreadsheet
+- **Judicial vault viewer & I.T. cipher decoder** — season-2 screens, kept
+  spoiler-free (the decoder will actually decode, live)
+- **Sound** — Web Audio CRT hum and mechanical keys inside the demo itself
