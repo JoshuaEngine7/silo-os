@@ -31,7 +31,13 @@ key (`T`); even the 3D wireframe color comes from the same design tokens.
 
 ## Running it
 
-You need a local server (ES modules don't load over `file://`). With Python:
+**Windows shortcut:** double-click `SILO-OS.bat`. It starts a local server and
+opens the demo in a clean app window (Edge if present). To stop it, close the
+minimized "SILO-OS (server)" window.
+
+**Any platform:** the project uses ES modules, which browsers refuse to load over
+`file://` (same-origin policy) — so it needs a local server, not just opening the
+HTML. With Python:
 
 ```bash
 cd silo-os
@@ -39,6 +45,10 @@ python -m http.server 8000
 ```
 
 Then open <http://localhost:8000> in your browser. Fullscreen: `F11`.
+
+> **Display:** designed for a landscape 16:9 screen (the in-world monitors are
+> fixed CRTs), so it fills a desktop/laptop/TV nicely but does not reflow to
+> portrait phones. A proportional letterbox-scale mode is on the roadmap.
 
 ## Controls
 
